@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Numerologia da Prosperidade - Teste Gratuito</title>
+    <title>Numerologia da Prosperidade</title>
     <style>
         * {
             margin: 0;
@@ -123,27 +123,39 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+
+        .error {
+            background: #fee;
+            color: #c33;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- Etapa 1 -->
+        <!-- Etapa 1: Dados Iniciais -->
         <div class="step active" id="step1">
             <h1>🔮 Numerologia da Prosperidade</h1>
+            <p style="text-align: center; color: #666; margin-bottom: 30px;">Descubra seu mapa numerológico</p>
+
             <form id="initialForm">
                 <div class="form-group">
                     <label for="fullName">Nome Completo</label>
-                    <input type="text" id="fullName" required>
+                    <input type="text" id="fullName" required placeholder="Seu nome">
                 </div>
+
                 <div class="form-group">
                     <label for="birthDate">Data de Nascimento</label>
                     <input type="date" id="birthDate" required>
                 </div>
+
                 <button type="submit">Calcular Meu Mapa ✨</button>
             </form>
         </div>
 
-        <!-- Etapa 2: Loading -->
+        <!-- Etapa 2: Processando -->
         <div class="step" id="step2">
             <div class="loading">
                 <div class="spinner"></div>
@@ -154,6 +166,7 @@
         <!-- Etapa 3: Preview -->
         <div class="step" id="step3">
             <h1>✨ Seu Mapa Está Pronto!</h1>
+
             <div class="result-preview">
                 <h3>Seus Números Principais:</h3>
                 <div style="text-align: center;">
@@ -166,21 +179,26 @@
             <form id="leadForm">
                 <div class="form-group">
                     <label for="email">E-mail</label>
-                    <input type="email" id="email" required>
+                    <input type="email" id="email" required placeholder="seu@email.com">
                 </div>
+
                 <div class="form-group">
                     <label for="phone">Telefone</label>
-                    <input type="tel" id="phone" required>
+                    <input type="tel" id="phone" required placeholder="(00) 00000-0000">
                 </div>
-                <button type="submit">Receber Relatório Completo 🎁</button>
+
+                <button type="submit">Receber Relatório - R$ 19,90 🎁</button>
             </form>
+
+            <div id="errorMessage" class="error" style="display: none;"></div>
         </div>
 
         <!-- Etapa 4: Enviando -->
         <div class="step" id="step4">
             <div class="loading">
                 <div class="spinner"></div>
-                <h2>Enviando seu relatório...</h2>
+                <h2>Gerando seu relatório...</h2>
+                <p style="color: #666; margin-top: 10px;">Você será redirecionado em instantes</p>
             </div>
         </div>
     </div>
@@ -188,55 +206,37 @@
     <script>
         let userData = {};
 
+        // Etapa 1: Calcular números
         document.getElementById('initialForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            
+
             userData.fullName = document.getElementById('fullName').value;
             userData.birthDate = document.getElementById('birthDate').value;
-            
+
             calculateNumerology();
             showStep(2);
-            
+
             setTimeout(() => {
                 showStep(3);
                 displayPreview();
             }, 2000);
         });
 
+        // Etapa 3: Enviar para gerar PDF
         document.getElementById('leadForm').addEventListener('submit', async function(e) {
             e.preventDefault();
-            
+
             userData.email = document.getElementById('email').value;
             userData.phone = document.getElementById('phone').value;
-            
+
             showStep(4);
 
             try {
-                // Capturar lead
-                const captureRes = await fetch('/api/capture-lead', {
+                // Chamar API para gerar PDF
+                const response = await fetch('/api/generate-pdf', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        fullName: userData.fullName,
-                        birthDate: userData.birthDate,
-                        email: userData.email,
-                        phone: userData.phone,
-                        lifePath: userData.lifePath,
-                        destiny: userData.destiny,
-                        soul: userData.soul
-                    })
-                });
-
-                const captureData = await captureRes.json();
-
-                if (!captureRes.ok) throw new Error(captureData.error);
-
-                // Gerar PDF
-                const pdfRes = await fetch('/api/generate-pdf', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        leadId: captureData.leadId,
                         email: userData.email,
                         fullName: userData.fullName,
                         lifePath: userData.lifePath,
@@ -245,18 +245,22 @@
                     })
                 });
 
-                const pdfData = await pdfRes.json();
+                const result = await response.json();
 
-                if (!pdfRes.ok) throw new Error(pdfData.error);
+                if (!response.ok) {
+                    throw new Error(result.error || 'Erro ao gerar relatório');
+                }
 
-                // Redirecionar
+                // Redirecionar para Hotmart após 2 segundos
                 setTimeout(() => {
                     window.location.href = 'https://pay.hotmart.com/J103934459T';
                 }, 2000);
 
             } catch (error) {
-                alert('Erro: ' + error.message);
+                console.error('Erro:', error);
                 showStep(3);
+                document.getElementById('errorMessage').textContent = 'Erro: ' + error.message;
+                document.getElementById('errorMessage').style.display = 'block';
             }
         });
 
@@ -270,7 +274,7 @@
             const day = date.getDate();
             const month = date.getMonth() + 1;
             const year = date.getFullYear();
-            
+
             userData.lifePath = reduceToSingleDigit(day + month + year);
             userData.destiny = calculateNameNumber(userData.fullName);
             userData.soul = calculateVowelNumber(userData.fullName);
@@ -289,12 +293,12 @@
                 'j': 1, 'k': 2, 'l': 3, 'm': 4, 'n': 5, 'o': 6, 'p': 7, 'q': 8, 'r': 9,
                 's': 1, 't': 2, 'u': 3, 'v': 4, 'w': 5, 'x': 6, 'y': 7, 'z': 8
             };
-            
+
             let sum = 0;
             name.toLowerCase().split('').forEach(char => {
                 if (values[char]) sum += values[char];
             });
-            
+
             return reduceToSingleDigit(sum);
         }
 
