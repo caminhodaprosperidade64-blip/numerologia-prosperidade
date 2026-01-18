@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Numerologia da Prosperidade - Teste Gratuito</title>
+    <meta name="description" content="Descubra seu mapa numerológico de prosperidade. Análise completa e personalizada.">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 600px;
+            width: 100%;
+            padding: 40px;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            color: #667eea;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 2em;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 0.95em;
+        }
+
+        .step {
+            display: none;
+        }
+
+        .step.active {
+            display: block;
+            animation: slideIn 0.4s ease;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .result-preview {
+            background: #f8f9ff;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid #667eea;
+        }
+
+        .result-preview h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .blur-text {
+            filter: blur(4px);
+            user-select: none;
+            margin-top: 15px;
+            color: #666;
+        }
+
+        .unlock-message {
+            text-align: center;
+            background: #fff3cd;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border: 2px solid #ffc107;
+        }
+
+        .unlock-message strong {
+            color: #856404;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            transition: width 0.5s ease;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .number-display {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 50%;
+            font-size: 24px;
+            font-weight: bold;
+            margin: 10px;
+        }
+
+        .brand {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e0e0e0;
+            color: #999;
+            font-size: 0.85em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Etapa 1: Dados Iniciais -->
+        <div class="step active" id="step1">
+            <h1>🔮 Numerologia da Prosperidade</h1>
+            <p class="subtitle">Descubra os segredos do seu mapa numerológico</p>
+            
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 33%"></div>
+            </div>
+
+            <form id="initialForm">
+                <div class="form-group">
+                    <label for="fullName">Nome Completo</label>
+                    <input type="text" id="fullName" required placeholder="Digite seu nome completo">
+                </div>
+
+                <div class="form-group">
+                    <label for="birthDate">Data de Nascimento</label>
+                    <input type="date" id="birthDate" required>
+                </div>
+
+                <button type="submit">Calcular Meu Mapa ✨</button>
+            </form>
+
+            <div class="brand">
+                Numerologia da Prosperidade © 2026
+            </div>
+        </div>
+
+        <!-- Etapa 2: Processando -->
+        <div class="step" id="step2">
+            <div class="loading">
+                <div class="spinner"></div>
+                <h2>Calculando seu mapa numerológico...</h2>
+                <p style="color: #666; margin-top: 10px;">Analisando vibrações e energias</p>
+            </div>
+        </div>
+
+        <!-- Etapa 3: Preview e Captura de Leads -->
+        <div class="step" id="step3">
+            <h1>✨ Seu Mapa Está Pronto!</h1>
+            <p class="subtitle">Veja uma prévia dos seus números</p>
+            
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 66%"></div>
+            </div>
+
+            <div class="result-preview">
+                <h3>Seus Números Principais:</h3>
+                <div style="text-align: center; margin: 20px 0;">
+                    <div class="number-display" id="lifePathPreview">-</div>
+                    <div class="number-display" id="destinyPreview">-</div>
+                    <div class="number-display" id="soulPreview">-</div>
+                </div>
+                
+                <p><strong>Número do Caminho da Vida:</strong> <span id="lifePathNumber">-</span></p>
+                <p style="margin-top: 10px;">Este é o número mais importante do seu mapa...</p>
+                
+                <div class="blur-text">
+                    <p>Seu propósito de vida está ligado à liderança e inovação. Você possui uma energia natural para iniciar projetos e inspirar outras pessoas. Suas maiores qualidades incluem coragem, determinação e capacidade de transformação...</p>
+                </div>
+            </div>
+
+            <div class="unlock-message">
+                <strong>🔓 Desbloqueie seu relatório completo!</strong>
+                <p style="margin-top: 8px;">Preencha seus dados para receber a análise detalhada de 30+ páginas</p>
+            </div>
+
+            <form id="leadForm">
+                <div class="form-group">
+                    <label for="leadName">Nome Completo</label>
+                    <input type="text" id="leadName" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">E-mail</label>
+                    <input type="email" id="email" required placeholder="seu@email.com">
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Telefone/WhatsApp</label>
+                    <input type="tel" id="phone" required placeholder="(00) 00000-0000">
+                </div>
+
+                <button type="submit">Ver Resultado Completo por R$ 19,90 🎁</button>
+            </form>
+
+            <div class="brand">
+                Numerologia da Prosperidade © 2026
+            </div>
+        </div>
+
+        <!-- Etapa 4: Redirecionamento -->
+        <div class="step" id="step4">
+            <div class="loading">
+                <div class="spinner"></div>
+                <h2>Preparando seu relatório completo...</h2>
+                <p style="color: #666; margin-top: 10px;">Você será redirecionado para o checkout em instantes</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Dados do usuário
+        let userData = {};
+
+        // Etapa 1: Formulário Inicial
+        document.getElementById('initialForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            userData.fullName = document.getElementById('fullName').value;
+            userData.birthDate = document.getElementById('birthDate').value;
+            
+            // Calcular numerologia
+            calculateNumerology();
+            
+            // Mostrar loading
+            showStep(2);
+            
+            // Simular processamento
+            setTimeout(() => {
+                showStep(3);
+                displayPreview();
+            }, 2000);
+        });
+
+        // Etapa 3: Captura de Leads
+        document.getElementById('leadForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            userData.leadName = document.getElementById('leadName').value;
+            userData.email = document.getElementById('email').value;
+            userData.phone = document.getElementById('phone').value;
+            
+            // Salvar dados
+            saveLeadData(userData);
+            
+            // Mostrar loading
+            showStep(4);
+            
+            // Redirecionar para checkout
+            setTimeout(() => {
+                redirectToCheckout();
+            }, 2000);
+        });
+
+        function showStep(stepNumber) {
+            document.querySelectorAll('.step').forEach(step => {
+                step.classList.remove('active');
+            });
+            document.getElementById('step' + stepNumber).classList.add('active');
+        }
+
+        function calculateNumerology() {
+            const birthDate = new Date(userData.birthDate);
+            const day = birthDate.getDate();
+            const month = birthDate.getMonth() + 1;
+            const year = birthDate.getFullYear();
+            
+            // Número do Caminho da Vida
+            userData.lifePath = reduceToSingleDigit(day + month + year);
+            
+            // Número do Destino (baseado no nome)
+            userData.destiny = calculateNameNumber(userData.fullName);
+            
+            // Número da Alma (vogais do nome)
+            userData.soul = calculateVowelNumber(userData.fullName);
+        }
+
+        function reduceToSingleDigit(num) {
+            while (num > 9 && num !== 11 && num !== 22 && num !== 33) {
+                num = num.toString().split('').reduce((a, b) => parseInt(a) + parseInt(b), 0);
+            }
+            return num;
+        }
+
+        function calculateNameNumber(name) {
+            const values = {
+                'a': 1, 'b': 2, 'c': 3, 'd': 4, 'e': 5, 'f': 6, 'g': 7, 'h': 8, 'i': 9,
+                'j': 1, 'k': 2, 'l': 3, 'm': 4, 'n': 5, 'o': 6, 'p': 7, 'q': 8, 'r': 9,
+                's': 1, 't': 2, 'u': 3, 'v': 4, 'w': 5, 'x': 6, 'y': 7, 'z': 8,
+                'á': 1, 'à': 1, 'â': 1, 'ã': 1, 'é': 5, 'ê': 5, 'í': 9, 'ó': 6, 'ô': 6, 'õ': 6, 'ú': 3, 'ü': 3, 'ç': 3
+            };
+            
+            let sum = 0;
+            name.toLowerCase().split('').forEach(char => {
+                if (values[char]) sum += values[char];
+            });
+            
+            return reduceToSingleDigit(sum);
+        }
+
+        function calculateVowelNumber(name) {
+            const vowels = 'aeiouAEIOUáàâãéêíóôõúüÁÀÂÃÉÊÍÓÔÕÚÜ';
+            const values = {
+                'a': 1, 'e': 5, 'i': 9, 'o': 6, 'u': 3,
+                'A': 1, 'E': 5, 'I': 9, 'O': 6, 'U': 3,
+                'á': 1, 'à': 1, 'â': 1, 'ã': 1, 'é': 5, 'ê': 5, 'í': 9, 'ó': 6, 'ô': 6, 'õ': 6, 'ú': 3, 'ü': 3,
+                'Á': 1, 'À': 1, 'Â': 1, 'Ã': 1, 'É': 5, 'Ê': 5, 'Í': 9, 'Ó': 6, 'Ô': 6, 'Õ': 6, 'Ú': 3, 'Ü': 3
+            };
+            
+            let sum = 0;
+            name.split('').forEach(char => {
+                if (vowels.includes(char)) {
+                    sum += values[char];
+                }
+            });
+            
+            return reduceToSingleDigit(sum);
+        }
+
+        function displayPreview() {
+            document.getElementById('lifePathPreview').textContent = userData.lifePath;
+            document.getElementById('destinyPreview').textContent = userData.destiny;
+            document.getElementById('soulPreview').textContent = userData.soul;
+            document.getElementById('lifePathNumber').textContent = userData.lifePath;
+            
+            // Preencher nome automaticamente
+            document.getElementById('leadName').value = userData.fullName;
+        }
+
+        function saveLeadData(data) {
+            // Salvar no localStorage
+            localStorage.setItem('numerologyLead', JSON.stringify(data));
+            
+            // Enviar para seu e-mail (opcional - você pode integrar com Zapier/Make)
+            console.log('Lead capturado:', data);
+        }
+
+        function redirectToCheckout() {
+            // URL do seu checkout Hotmart
+            const checkoutURL = 'https://pay.hotmart.com/J103934459T';
+            
+            // Passar dados via URL
+            const params = new URLSearchParams({
+                email: userData.email,
+                name: userData.leadName
+            });
+            
+            window.location.href = ${checkoutURL}?${params.toString()};
+        }
+
+        // Máscara de telefone
+        document.getElementById('phone').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length <= 11) {
+                value = value.replace(/^(\d{2})(\d)/g, '($1) $2');
+                value = value.replace(/(\d)(\d{4})$/, '$1-$2');
+            }
+            e.target.value = value;
+        });
+    </script>
+</body>
+</html>
